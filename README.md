@@ -1,8 +1,39 @@
 # image recognition skill
 
-install caffe http://caffe.berkeleyvision.org/installation.html
-download bvlc_googlenet with caffe script
-add caffe_path to config
+
+# install
+
+        install caffe http://caffe.berkeleyvision.org/installation.html
+        download bvlc_googlenet with caffe script
+        add caffe_path to config
+
+
+# using in other skills
+
+        from os.path import dirname
+        import sys
+        sys.path.append(dirname(__file__) +"/image_recog_skill")
+
+        from image_recog_skill import ImageRecognitionService
+
+        def handle_img_recog_intent(self, message):
+            classifier = ImageRecognitionService(self.emitter)
+            path_to_file = "path/to/ur/image_file"
+            results = classifier.local_image_classification(path_to_file)
+            # make names pretty
+            i = 0
+            for result in list(results):
+                # cleave first word nxxxxx
+                result = result.split(" ")[1:]
+                r = ""
+                for word in result:
+                    r += word + " "
+                # split in "," since its same thing usually
+                result = r[:-1].split(",")[0]
+                results[i] = result
+                i += 1
+            self.speak("in test image i see " + results[0] + ", or maybe it is " + results[1])
+
 
 
 # skills logs
@@ -25,5 +56,4 @@ add caffe_path to config
 # TODO
 
 requirements.sh
-usage in skills class
 
