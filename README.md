@@ -12,7 +12,7 @@
 
         from os.path import dirname
         import sys
-        sys.path.append(dirname(__file__) +"/image_recog_skill")
+        sys.path.append(dirname(dirname(__file__)))
 
         from image_recog_skill import ImageRecognitionService
 
