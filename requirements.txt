@@ -1,1 +1,5 @@
 numpy
+fuzzywuzzy
+imgurpython
+scipy
+PIL

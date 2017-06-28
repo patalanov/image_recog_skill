@@ -1,14 +1,25 @@
 # image recognition skill
 
+Recognize contents of images using caffe bvlc_googlenet, 1000 categories available
+
+# Deep draw
+
+Visualize Layers using [deep draw](http://auduno.com/post/125837418083/drawing-with-googlenet), upload content to imgur
+
+Representation of a Triceratops
+
+![Image generated](https://i.imgur.com/CdSrfc5.png)
+
 
 # install
 
         install caffe http://caffe.berkeleyvision.org/installation.html
         download bvlc_googlenet with caffe script
-        add caffe_path to config
+        add caffe_path to config or .py
+        add imgur api to config or .py
 
 
-# using in other skills
+# image recognition in other skills
 
         from os.path import dirname
         import sys
@@ -35,8 +46,21 @@
             self.speak("in test image i see " + results[0] + ", or maybe it is " + results[1])
 
 
+# deep draw
 
-# skills logs
+        from os.path import dirname
+        import sys
+        sys.path.append(dirname(dirname(__file__)))
+
+        from image_recog_skill import ImageRecognitionService
+
+        def handle_img_recog_intent(self, message):
+            imagenet_class = random.randint(0, len(self.label_mapping))
+            classifier = ImageRecognitionService(self.emitter)
+            classifier.local_deepdraw(imagenet_class, message.data.get("target"))
+
+
+# image recog logs
 
         2017-06-17 15:31:16,508 - Skills - DEBUG - {"type": "recognizer_loop:utterance", "data": {"source": "cli:48736", "user": "48736", "utterances": ["cc"], "mute": true}, "context": null}
         2017-06-17 15:31:16,522 - Skills - DEBUG - {"type": "ImageRecognitionSkill:ImageClassfyStatusIntent", "data": {"confidence": 1.0, "target": "cli:48736", "mute": true, "intent_type": "ImageRecognitionSkill:ImageClassfyStatusIntent", "user": "48736", "utterance": "cc", "imgstatus": "cc"}, "context": {"target": "cli:48736"}}
@@ -51,9 +75,16 @@
 
 # usage
 
-        image recognition status
+        image recognition status <- recognize test image
+
+        deep draw <- visualize a random layer (may takeup to 1 hour)
+
+        deep draw with "class" <- fuzzy match your name to best availabel class and visualize it
 
 # TODO
 
 requirements.sh
+deep draw logs
+request from server usage / api doc
+
 
